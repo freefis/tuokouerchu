@@ -142,7 +142,6 @@ def dict_load_words(path):
     return True
 
 def dict_load_defaults():
-#    mmseg.mmseg_load_chars(join(dirname(__file__), 'data', 'chars.dic'))
     mmseg.mmseg_load_words(join(dirname(__file__), 'data', 'library.dic'))
 
 
