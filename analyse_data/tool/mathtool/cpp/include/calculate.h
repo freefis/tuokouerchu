@@ -17,7 +17,7 @@
  */
 #include <vector>
 
-namespace mathtool
+namespace calculate
 {
     /* 
      * ===  FUNCTION  ======================================================================
@@ -25,15 +25,15 @@ namespace mathtool
      *  Description:  计算总和
      * =====================================================================================
      */
-    double sum(std::vector <double> factorArray);
-
+    double sum(double factorArray[],long int length);
+    
     /* 
      * ===  FUNCTION  ======================================================================
      *         Name:  geometric avarage
-     *  Description:  算术平均
+     *  Description:  几何平均
      * =====================================================================================
      */
-    double geometric_avarage (std::vector <double> factorArray);
+    double geometric_avarage(double factorArray[],long int length);
     
     /* 
      * ===  FUNCTION  ======================================================================
@@ -41,7 +41,7 @@ namespace mathtool
      *  Description:  算术平均
      * =====================================================================================
      */
-    double arithmetic_average(std::vector <double> factorArray);
+    double arithmetic_average(double factorArray[],long int length);
 
     /* 
      * ===  FUNCTION  ======================================================================
@@ -49,7 +49,8 @@ namespace mathtool
      *  Description:  计算方差
      * =====================================================================================
      */
-    double variance(std::vector <double> factorArray);
+    double variance(double factorArray[],long int length);
+
 
     /* 
      * ===  FUNCTION  ======================================================================
@@ -57,14 +58,5 @@ namespace mathtool
      *  Description:  标准差
      * =====================================================================================
      */
-    double standard_deviation(std::vector <double> factorArray);
-
-    
-    /* 
-     * ===  FUNCTION  ======================================================================
-     *         Name:  sigma
-     *  Description:  
-     * =====================================================================================
-     */
-    double sigma (int i_button,int i_top,double * func);
+    double standard_deviation(double factorArray[],long int length);
 }

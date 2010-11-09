@@ -4,19 +4,71 @@ import sys
 import os
 from ctypes import *
 from os.path import join, dirname, abspath, exists
+import glob
+
 
 if sys.platform == 'win32':
     ext = 'dll'
 else:
     ext = 'so'
-    
-mmseg = cdll.LoadLibrary(join(dirname(__file__),
-                              'cpp',
-                              'libcal.%s' % ext))
+
+"""以后我们都假设为*nix平台"""
+
+libs = glob.glob("cpp/lib*so")
+if(libs):
+    lib = os.path.basename(libs[0])
+else:
+    lib = "libwordseg.%s" % ext
+
+try:
+    path = os.path.join(dirname(__file__),'cpp',lib)
+    mmseg = cdll.LoadLibrary(path)
+except:
+    print("No such path:%s" % path)
+    sys.exit(0)
 
 DIRNAME = os.path.dirname(os.path.abspath(__file__))
 CACHE_PATH = os.path.join(DIRNAME,"data","cache")
 LIBRARY_PATH = os.path.join(DIRNAME,"data","library.dic")
+
+########################################
+# the Token struct
+########################################
+class Token(Structure):
+    _fields_ = [('_text', c_void_p),
+                ('_offset', c_int),
+                ('_length', c_int)]
+
+    def text_get(self):
+        return string_at(self._text, self._length)
+    def text_set(self, value):
+        raise AttributeError('text attribute is read only')
+    text = property(text_get, text_set)
+
+    def start_get(self):
+        return self._offset
+    def start_set(self, value):
+        raise AttributeError('start attribute is read only')
+    start = property(start_get, start_set)
+
+    def end_get(self):
+        return self._offset+self._length
+    def end_set(self, value):
+        raise AttributeError('start attribute is read only')
+    end = property(end_get, end_set)
+
+    def length_get(self):
+        return self._length
+    def length_set(self):
+        raise AttributeError('length attribute is read only')
+    length = property(length_get, length_set)
+
+    def __repr__(self):
+        return '<Token %d..%d %s>' % (self.start,
+                self.end, self.text.__repr__())
+    def __str__(self):
+        return self.text
+
 
 ########################################
 # Init function prototypes
@@ -73,10 +125,6 @@ mmseg.cache_words_get_cache_words.restype  = c_char_p
 
 mmseg.cache_words_get_iter_cache_word.argtypes = [c_void_p]
 mmseg.cache_words_get_iter_cache_word.restype  = c_char_p
-
-
-
-cal.
 ########################################
 # Python API
 ########################################

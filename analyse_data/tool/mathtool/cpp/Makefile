@@ -12,7 +12,7 @@ LDFLAGS := -fPIC -shared
 SOURCE  := $(wildcard src/*.cpp)
 OBJS 	:= $(SOURCE:src/%.cpp=obj/%.o)  # or ->  OBJS 	:= $(patsubst src/%.cpp, obj/%.o, $(SOURCE))
 BIN     := main
-DLIB    := cal
+DLIB    := mathtool
 TARGET_LIB := lib$(DLIB).so
 WARNING := -Wno-deprecated
 #WARNING := -W -Wall
@@ -20,7 +20,7 @@ WARNING := -Wno-deprecated
 
 all:$(OBJS)
 		    $(LD) $(LDFLAGS) -O2 -o $(TARGET_LIB) $(OBJS)  $(WARNING)  
-			$(CC) -o $(BIN)  -O2 -Iinclude  -L./ -l$(DLIB)  src/main.cc -Wl,-rpath,./ $(WARNING)  
+#$(CC) -o $(BIN)  -O2 -Iinclude  -L./ -l$(DLIB)  src/main.cc -Wl,-rpath,./ $(WARNING)  
 
 obj/%.o:src/%.cpp
 			$(CC) -c $(CFLAGS) -Iinclude $< -o $@  $(WARNING)

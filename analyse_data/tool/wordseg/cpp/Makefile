@@ -12,7 +12,7 @@ LDFLAGS := -fPIC -shared
 SOURCE  := $(wildcard src/*.cpp)
 OBJS 	:= $(SOURCE:src/%.cpp=obj/%.o)  # or ->  OBJS 	:= $(patsubst src/%.cpp, obj/%.o, $(SOURCE))
 BIN     := main
-DLIB    := mmseg
+DLIB    := wordseg
 TARGET_LIB := lib$(DLIB).so
 WARNING := -Wno-deprecated
 #WARNING := -W -Wall

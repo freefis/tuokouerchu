@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace mathtool
+namespace calculate
 {
     /* 
      * ===  FUNCTION  ======================================================================
@@ -31,13 +31,14 @@ namespace mathtool
      *  Description:  计算总和
      * =====================================================================================
      */
-    double sum(vector <double> factorArray)
+    double sum(double factorArray[],long int length)
     {
-        double Sum;
-        vector <double>::iterator iter;
-        for(iter=factorArray.begin();iter!=factorArray.end();iter++) {
-            Sum += *iter;  // for Sum(x)
-        }
+        double Sum = 0;
+        long int i;
+
+        for(i=0;i<length;i++) 
+            Sum += factorArray[i];  // for Sum(x)
+        
         return Sum;
     }
 
@@ -45,17 +46,18 @@ namespace mathtool
     /* 
      * ===  FUNCTION  ======================================================================
      *         Name:  geometric avarage
-     *  Description:  算术平均
+     *  Description:  几何平均
      * =====================================================================================
      */
-    double geometric_avarage (vector <double> factorArray)
+    double geometric_avarage(double factorArray[],long int length)
     {
         double Multiplication;
-        vector <double>::iterator iter;
-        for(iter=factorArray.begin();iter!=factorArray.end();iter++) {
-            Multiplication *= *iter;  
-        }
-        return pow(Multiplication,(double)factorArray.size()*(-1));
+        long int i;
+
+        for(i=0;i<length;i++) 
+            Multiplication *= factorArray[i];  
+
+        return pow(Multiplication,(double)length);
     }		
     
     /* 
@@ -64,10 +66,10 @@ namespace mathtool
      *  Description:  算术平均
      * =====================================================================================
      */
-    double arithmetic_average(vector <double> factorArray)
+    double arithmetic_average(double factorArray[],long int length) 
     {
-        double Sum = sum(factorArray);
-        return Sum / factorArray.size(); 
+        double Sum = sum(factorArray,length);
+        return Sum / length;
     }
 
     /* 
@@ -76,17 +78,16 @@ namespace mathtool
      *  Description:  计算方差
      * =====================================================================================
      */
-    double variance(vector <double> factorArray)
+    double variance(double factorArray[],long int length) 
     {
-        double Avg = arithmetic_average(factorArray);
+        double Avg = arithmetic_average(factorArray,length);
         double SquareSum = 0;
 
-        vector <double>::iterator iter;
-        for(iter=factorArray.begin();iter!=factorArray.end();iter++) {
-            SquareSum += (*iter) * (*iter) ;
+        long int i;
+        for(i=0;i<length;i++) {
+            SquareSum += factorArray[i]*factorArray[i] ;
         }
 
-        double length = factorArray.size();
         return Avg*Avg - SquareSum/length;
     }
 
@@ -97,24 +98,9 @@ namespace mathtool
      *  Description:  标准差
      * =====================================================================================
      */
-    double standard_deviation(vector <double> factorArray)
+    double standard_deviation(double factorArray[],long int length) 
     {
-        double Vrc = variance(factorArray);
+        double Vrc = variance(factorArray,length);
         return pow(Vrc,0.5);
     }		
-
-
-    
-    /* 
-     * ===  FUNCTION  ======================================================================
-     *         Name:  sigma
-     *  Description:  
-     * =====================================================================================
-     */
-    double sigma (int i_button,int i_top,double * func)
-    {
-        return  0;
-    }		
-
-
 }

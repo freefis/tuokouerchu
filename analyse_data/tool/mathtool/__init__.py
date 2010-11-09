@@ -10,4 +10,7 @@
 #-------------------------------------------
 
 
+import mathtool
 
+m = mathtool.Mathtool()
+print m.arithmetic_average( [1,100] )
