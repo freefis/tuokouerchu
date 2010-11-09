@@ -135,7 +135,7 @@ namespace dict_ext
      *         Type:  Priavate
      * =====================================================================================
      */
-    void Cache_words::filter_with_only_chinese_words()
+    void Cache_words::filter_with_only_chinese_words(level)
     {
         vector <string> words_list_temp;
         vector <string>::iterator iter; 
