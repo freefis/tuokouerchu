@@ -9,10 +9,14 @@
 # Archieved   : Mar 2nd 2009  
 #-------------------------------------------
 
+from simple_pymongo import Simple_pymongo 
 import pymongo
 import config
 
-conn = pymongo.Connection(",".join(config.mongo['hosts']))
+conn = Simple_pymongo(",".join(config.mongo['hosts']))
+
+def get_db(dbname):
+    return conn.__getattr__(dbname)
 
 def get_cursor(tbname,dbname=config.mongo['dbname']):
     db = conn.__getattr__(dbname)
@@ -20,5 +24,5 @@ def get_cursor(tbname,dbname=config.mongo['dbname']):
     return cursor
 
 if __name__ == '__main__':
-    for i in  get_cursor("groupbuy").find():
-        print i
+    d =   get_cursor("groupbuy")
+    print d._Collection__name
