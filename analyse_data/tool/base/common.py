@@ -13,12 +13,13 @@ from simple_pymongo import Simple_pymongo
 import pymongo
 import config
 
-conn = Simple_pymongo(",".join(config.mongo['hosts']))
 
 def get_db(dbname):
+    conn = Simple_pymongo(config.mongo['hosts'])
     return conn.__getattr__(dbname)
 
 def get_cursor(tbname,dbname=config.mongo['dbname']):
+    conn = Simple_pymongo.get_instance()
     db = conn.__getattr__(dbname)
     cursor = db.__getattr__(tbname)
     return cursor

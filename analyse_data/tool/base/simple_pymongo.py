@@ -11,32 +11,58 @@
 
 import pymongo
 from pymongo import Connection
+from pymongo.objectid import ObjectId
+import config
 
-class Simple_pymongo(Connection):
-    def __init__(self,*args,**kargs):
-        self.conn_obj = Connection.__init__(self,*args,**kargs)
+class Extend_Connection(Connection):
+    pass
 
-    def set_db(self,dbname):
-        self.db = self.conn_obj.__getattr__(dbname)
+class Extend_Collection(pymongo.collection.Collection):
+    def auto_incr_id(self,object_id):
+        if type(object_id) == "str":
+            object_id = ObjectId(objectid)
 
-    def set_collection(self,collection):
-        self.col = self.db.__getattr__(collection)
-
-    def create_cursor(self,dbname,collection):
-        self.set_db(dbname)
-        self.set_col(collection)
-        return cursor
-
-    def auto_incr_id(self,row):
         self.db.command(
                 "findandmodify",
-                self.col._Collection__name,
-                query={'_id': Row['_id']}, 
+                col,
+                query={'_id': object_id}, 
                 update={'$inc': {'id': 1}}, 
                 upset=True, 
                 new=True
         )
 
 
+class Simple_pymongo(Extend_Connection):
+    @staticmethod
+    def get_instance():
+        obj = Simple_pymongo(config.mongo['hosts'])
+        return obj
 
 
+    def __init__(self,*args,**kargs):
+        self.conn_obj = Connection(*args,**kargs)
+
+
+    def create_cursor(self,dbname=config.mongo['dbname']):
+        self.db = self.conn_obj.__getattr__(dbname)
+        return self.db
+
+
+    def auto_incr_id(self,col,object_id):
+        if type(object_id) == "str":
+            object_id = ObjectId(objectid)
+
+        self.db.command(
+                "findandmodify",
+                col,
+                query={'_id': object_id}, 
+                update={'$inc': {'id': 1}}, 
+                upset=True, 
+                new=True
+        )
+
+    def _set_db(self,dbname):
+        self.db = self.conn_obj.__getattr__(dbname)
+
+    def _set_collection(self,collection):
+        self.col = self.db.__getattr__(collection)
